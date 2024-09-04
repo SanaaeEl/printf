@@ -13,7 +13,7 @@ int _printf(const char *format, ...)
 {
 	int i = 0, t_count = 0;
 	va_list arg;
-	char ch;
+	char ch, *str;
 
 	va_start(arg, format);
 	while (format[i] != '\0')
@@ -21,15 +21,20 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			if(format[i] == 'c')
+			if (format[i] == 'c')
 			{
 				ch = va_arg(arg, int);
-				t_count += _print(ch);
+				t_count += _printch(ch);
+			}
+			else if (format[i] == 's')
+			{
+				str = va_arg(arg, char *);
+				t_count += _printstr(str);
 			}
 		}
 		else
 		{
-			t_count += _print(format[i]);
+			t_count += _printch(format[i]);
 		}
 
 		i++;
@@ -38,13 +43,3 @@ int _printf(const char *format, ...)
 }
 
 
-/**
- * _print - print a charater
- * @c: charatcer to be printed
- * Return: the number of bytes successfully written
- */
-
-int _print(char c)
-{
-	return (write(1, &c, 1));
-}
