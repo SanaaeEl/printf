@@ -15,7 +15,7 @@ int _printf(const char *format, ...)
 {
 	ssize_t nb;
 
-	nb = write(STOUT_FILENO, format, strlen(format));
+	nb = write(STDOUT_FILENO, format, strlen(format));
 	if (nb == -1)
 		return (-1);
 	return (nb);
