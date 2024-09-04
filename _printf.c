@@ -13,10 +13,43 @@
 
 int _printf(const char *format, ...)
 {
-	ssize_t nb;
+	int tcount = 0, c;
+	char ch;
+	va_list arg;
+	const char *p = format;
 
-	nb = write(STDOUT_FILENO, format, strlen(format));
-	if (nb == -1)
+	va_start(arg, format);
+	if (!format)
 		return (-1);
-	return (nb);
+	while (*p)
+	{
+		if (*p == '%')
+		{
+			++p;
+			if (*p == 'c')
+			{
+				ch = va_arg(arg, int);
+				c = write(STDOUT_FILENO, &ch, 1);
+				tcount += c;
+			}
+			else
+			{
+				va_end(arg);
+				return (- 1);
+			}
+		}
+		else
+		{
+			c = write(STDOUT_FILENO, &ch, 1);
+			tcount += c;
+			if (c == - 1)
+			{
+				va_end(arg);
+				return (- 1);
+			}
+		}
+		++p;
+	}
+	va_end(arg);
+	return (tcount);
 }
