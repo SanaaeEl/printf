@@ -44,6 +44,10 @@ int _printf(const char *format, ...)
 				ch = '%';
 				t_count += _printch(ch);
 			}
+			else if (format[i] == '\0')
+			{
+				return (0);
+			}
 			else
 			{
 				t_count += _printch(format[i - 1]);
