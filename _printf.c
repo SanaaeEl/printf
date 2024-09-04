@@ -31,6 +31,11 @@ int _printf(const char *format, ...)
 				str = va_arg(arg, char *);
 				t_count += _printstr(str);
 			}
+			else if (format[i] == '%')
+			{
+				ch = '%';
+				t_count += _printch(ch);
+			}
 		}
 		else
 		{
