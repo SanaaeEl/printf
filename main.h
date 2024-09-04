@@ -10,7 +10,7 @@
 
 
 int _printf(const char *format, ...);
-
+int _print(char c);
 
 
 

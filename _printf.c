@@ -9,47 +9,42 @@
  */
 
 
-
-
 int _printf(const char *format, ...)
 {
-	int tcount = 0, c;
-	char ch;
+	int i = 0, t_count = 0;
 	va_list arg;
-	const char *p = format;
+	char ch;
 
 	va_start(arg, format);
-	if (!format)
-		return (-1);
-	while (*p)
+	while (format[i] != '\0')
 	{
-		if (*p == '%')
+		if (format[i] == '%')
 		{
-			++p;
-			if (*p == 'c')
+			i++;
+			if(format[i] == 'c')
 			{
 				ch = va_arg(arg, int);
-				c = write(STDOUT_FILENO, &ch, 1);
-				tcount += c;
-			}
-			else
-			{
-				va_end(arg);
-				return (- 1);
+				t_count += _print(ch);
 			}
 		}
 		else
 		{
-			c = write(STDOUT_FILENO, &ch, 1);
-			tcount += c;
-			if (c == - 1)
-			{
-				va_end(arg);
-				return (- 1);
-			}
+			t_count += _print(format[i]);
 		}
-		++p;
+
+		i++;
 	}
-	va_end(arg);
-	return (tcount);
+	return (t_count);
+}
+
+
+/**
+ * _print - print a charater
+ * @c: charatcer to be printed
+ * Return: the number of bytes successfully written
+ */
+
+int _print(char c)
+{
+	return (write(1, &c, 1));
 }
