@@ -52,6 +52,7 @@ int _printf(const char *format, ...)
 			else
 			{
 				t_count += _printch(format[i - 1]);
+				t_count += _printch(format[i]);
 			}
 		}
 		else
