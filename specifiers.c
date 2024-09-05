@@ -2,7 +2,7 @@
 
 /**
  * sp_func - specifiers function
- * @arg: argument of type va_list 
+ * @arg: argument of type va_list
  */
 
 typedef int (*sp_func)(va_list *arg);
@@ -17,7 +17,8 @@ typedef int (*sp_func)(va_list *arg);
 int handle_char(va_list *arg)
 {
 	char ch = va_arg(*arg, int);
-	return _printch(ch);
+
+	return (_printch(ch));
 }
 
 
@@ -28,10 +29,12 @@ int handle_char(va_list *arg)
  */
 int handle_string(va_list *arg)
 {
-	char *str = va_arg(*arg, char *);
+	char *str;
+
+	str = va_arg(*arg, char *);
 	if (!str)
 		str = "(null)";
-	return _printstr(str);
+	return (_printstr(str));
 }
 
 
@@ -44,7 +47,7 @@ int handle_string(va_list *arg)
 int handle_percent(va_list *arg)
 {
 	(void)arg;
-	return _printch('%');
+	return (_printch('%'));
 }
 
 
