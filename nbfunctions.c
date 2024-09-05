@@ -13,6 +13,8 @@ int print_int(int nb)
 
 	if (nb == 0)
 		return (_printch('0'));
+	if (nb == INT_MIN)
+		count += _printstr("-2147483648");
 	if (nb < 0)
 	{
 		count += _printch('-');
