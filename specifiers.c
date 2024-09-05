@@ -1,13 +1,26 @@
 #include "main.h"
 
+
 /**
- * sp_func - specifiers function
- * @arg: argument of type va_list
+ * get_specifier - specifiers function
+ * @spec: specifier in question
+ * Return: pointer to the specifier function
  */
+int (*get_specifier(char spec))(va_list *)
+{
+	int i;
+	sp_map specifiers[] = {
+		{'c', handle_char},
+		{'s', handle_string},
+		{'%', handle_percent},
+		{'\0', NULL}
+	};
 
-typedef int (*sp_func)(va_list *arg);
-
-
+	for (i = 0; specifiers[i].specifier; i++)
+		if (spec == specifiers[i].specifier)
+			return (specifiers[i].handler);
+	return (NULL);
+}
 
 /**
  * handle_char - handles char type

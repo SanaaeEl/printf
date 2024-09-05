@@ -10,13 +10,8 @@
 
 static int print_format(const char *format, va_list *arg)
 {
-	int i = 0, t_count = 0, j, (*handler)(va_list *arg) = NULL;
-	sp_map specifiers[] = {
-		{'c', handle_char},
-		{'s', handle_string},
-		{'%', handle_percent},
-		{'\0', NULL}
-	};
+	int i = 0, t_count = 0, (*handler)(va_list *arg);
+
 	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
@@ -24,23 +19,8 @@ static int print_format(const char *format, va_list *arg)
 			i++;
 			if (format[i] == '\0')
 				return (-1);
-			for (j = 0; specifiers[j].specifier != '\0'; j++)
-			{
-				if (format[i] == specifiers[j].specifier)
-				{
-					handler = specifiers[j].handler;
-					break;
-				}
-			}
-			if (handler)
-			{
-				t_count += handler(arg);
-			}
-			else
-			{
-				t_count += _printch(format[i - 1]);
-				t_count += _printch(format[i]);
-			}
+			handler = get_specifier(format[i]);
+			t_count += handler ? handler(arg) : _printch('%') + _printch(format[i]);
 		}
 		else
 		{

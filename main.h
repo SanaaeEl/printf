@@ -30,6 +30,7 @@ int _printstr(char *str);
 int handle_char(va_list *arg);
 int handle_string(va_list *arg);
 int handle_percent(va_list *arg);
+int (*get_specifier(char spec))(va_list *);
 
 
 
