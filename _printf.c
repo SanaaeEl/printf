@@ -1,53 +1,40 @@
 #include "main.h"
 
 
-
 /**
- * _printf - produces output according to a format
- * @format: character string containing specifiers
- * Return: the nb of characters printed
+ * print_format - handles the types of output
+ * @format: chatacter string containing specifiers
+ * @arg: argument to be printed
+ * Return: the nb of bytes successfully printed
  */
 
-
-int _printf(const char *format, ...)
+static int print_format(const char *format, va_list *arg)
 {
-	int i = 0, t_count = 0;
-	va_list arg;
-	char ch, *str;
-
-	if (format == NULL)
-	{
-		/**
-		 * write(1, "", 0);
-		 */
-		return (- 1);
-	}
-	
-	va_start(arg, format);
+	int i = 0, t_count = 0, j, (*handler)(va_list *arg) = NULL;
+	sp_map specifiers[] = {
+		{'c', handle_char},
+		{'s', handle_string},
+		{'%', handle_percent},
+		{'\0', NULL}
+	};
 	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
 		{
 			i++;
 			if (format[i] == '\0')
-			{
-				va_end(arg);
 				return (-1);
-			}
-			if (format[i] == 'c')
+			for (j = 0; specifiers[j].specifier != '\0'; j++)
 			{
-				ch = va_arg(arg, int);
-				t_count += _printch(ch);
+				if (format[i] == specifiers[j].specifier)
+				{
+					handler = specifiers[j].handler;
+					break;
+				}
 			}
-			else if (format[i] == 's')
+			if (handler)
 			{
-				str = va_arg(arg, char *);
-				t_count += _printstr(str);
-			}
-			else if (format[i] == '%')
-			{
-				ch = '%';
-				t_count += _printch(ch);
+				t_count += handler(arg);
 			}
 			else
 			{
@@ -64,5 +51,29 @@ int _printf(const char *format, ...)
 	}
 	return (t_count);
 }
+
+/**
+ * _printf - produces output according to a format
+ * @format: character string containing specifiers
+ * Return: the nb of characters printed
+ */
+
+
+int _printf(const char *format, ...)
+{
+	int total_count = 0;
+	va_list arg;
+
+	if (!format)
+	{
+		return (-1);
+	}
+	va_start(arg, format);
+	total_count = print_format(format, &arg);
+
+	va_end(arg);
+	return (total_count);
+}
+
 
 
