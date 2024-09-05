@@ -13,6 +13,8 @@ int (*get_specifier(char spec))(va_list *)
 		{'c', handle_char},
 		{'s', handle_string},
 		{'%', handle_percent},
+		{'d', handle_int},
+		{'i', handle_int},
 		{'\0', NULL}
 	};
 
@@ -64,4 +66,14 @@ int handle_percent(va_list *arg)
 }
 
 
+/**
+ * handle_int - handles integer type
+ * @arg: integer in question
+ * Return: nb of bytes written
+ */
+int handle_int(va_list *arg)
+{
+	int n = va_arg(*arg, int);
 
+	return (print_int(n));
+}

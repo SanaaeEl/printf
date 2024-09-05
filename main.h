@@ -26,10 +26,12 @@ typedef struct specifierss
 int _printf(const char *format, ...);
 int _printch(char c);
 int _printstr(char *str);
+int print_int(int nb);
 
 int handle_char(va_list *arg);
 int handle_string(va_list *arg);
 int handle_percent(va_list *arg);
+int handle_int(va_list *arg);
 int (*get_specifier(char spec))(va_list *);
 
 
